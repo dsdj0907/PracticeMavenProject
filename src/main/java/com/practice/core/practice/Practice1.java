@@ -11,7 +11,7 @@ public class Practice1 {
 
 	public static void main(String[] args) {
 		Practice1 fn = new Practice1();
-		fn.printLargestOccurrence();
+		fn.printCountOfTheNumbers();
 	}
 
 	// Hashmap is non Synchronized and Not Thread Safe
@@ -44,6 +44,7 @@ public class Practice1 {
 		a.add("vinni");
 
 		a.remove("vinni");
+		a.removeAll(a);
 		System.out.println(a);
 	}
 
@@ -61,23 +62,26 @@ public class Practice1 {
 
 	}
 
-	public void printUniqueNumber() {
-		int a[] = { 4, 5, 3, 4, 5, 3, 9, 2 ,2};
+	public void printCountOfTheNumbers() {
+		int a[] = { 4, 5, 3, 4, 7, 3, 9, 2, 2};
 		int k = 0;
 		ArrayList<Integer> al = new ArrayList<Integer>();
 		for (int i = 0; i < a.length; i++) {
 			if (!al.contains(a[i])) {
 				al.add(a[i]);
-				k = 0;
+				k = 1;
 
 				for (int j = i + 1; j < a.length; j++) {
 					if (a[i] == a[j]) {
 						k++;
 					}
 				}
-				if (k == 0) {
-					System.out.print(a[i]);
-				}
+				
+				System.out.println(a[i] + " count is " + k);
+				
+//				if (k == 1) {
+//					System.out.println(a[i]);
+//				}
 			}
 		}
 	}
@@ -104,5 +108,25 @@ public class Practice1 {
 		return result;
 		
 	}
+	
+	public Map<Character, Integer> countOfOccurrences(String s){
+		Map<Character, Integer> listOfOccurrences = new HashMap<Character, Integer>();
+		for(Character c: s.toCharArray()) {
+			listOfOccurrences.put(c, listOfOccurrences.getOrDefault(c, 0)+1);
+		}
+		
+		return listOfOccurrences;	
+	}
+	
+	public void countOfOcc() {
+		Practice1 fn = new Practice1();
+		Map<Character, Integer> count = fn.countOfOccurrences("mani");
+		for(Map.Entry<Character, Integer> entry:count.entrySet()) {
+			entry.getKey();
+			entry.getValue();
+		}
+	}
+	
+
 
 }

@@ -10,11 +10,15 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.practice.core.driver.BaseDriver;
@@ -79,7 +83,7 @@ public class CommonUserActions {
 		element.clear();
 		element.sendKeys(text);
 	}
-	
+
 	public void clickElement(String locatorType, String locatorValue) {
 		WebElement element = findElement(locatorType, locatorValue);
 		element.click();
@@ -103,4 +107,48 @@ public class CommonUserActions {
 	public String formatInteger(int input) {
 		return String.format("%02d", input);
 	}
+
+	public void selectElementFromDropdown(String locatorType, String locatorValue, String optionType, String value) {
+		WebElement element = findElement(locatorType, locatorValue);
+		Select select = new Select(element);
+		switch (optionType.toUpperCase()) {
+		case "INDEX":
+			int index = Integer.parseInt(value);
+			select.selectByIndex(index);
+			break;
+		case "VISIBLETEXT":
+			select.selectByVisibleText(value);
+			break;
+		case "VALUE":
+			select.selectByValue(value);
+			break;
+		default:
+			Log.info("unable to Select an option from Dropdown");
+			break;
+		}
+	}
+
+	public void waitForVisibilityOfElement(String locatorType, String locatorValue) {
+		WebElement element = findElement(locatorType, locatorValue);
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+
+	public void waitForElementToBeClickable(String locatorType, String locatorValue) {
+		WebElement element = findElement(locatorType, locatorValue);
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+	}
+
+	public void acceptAlert(String action) {
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
+	}
+
+	public void dragAndDrop(String fromElementType, String fromElement, String toElementType, String toElement) {
+		WebElement fromEle = findElement(fromElementType, fromElement);
+		WebElement toEle = findElement(toElementType, toElement);
+		Actions actions = new Actions(driver);
+		actions.dragAndDrop(fromEle, toEle).build().perform();
+	}
+
+
 }
